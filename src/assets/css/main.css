@@ -1,0 +1,13 @@
+button{
+  vertical-align: middle;
+  height: 2rem;
+  border-color:  #cbd5e0;
+  border-style: solid;
+  border-width: 2px;
+}
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;

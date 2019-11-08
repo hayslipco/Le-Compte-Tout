@@ -1,13 +1,13 @@
 <template>
-  <div id="introDiv">
-    <input v-model="textBox" class="border-solid border-2 border-black" />
-    <button v-on:click="addToList" class="border-solid border-2 border-black px-4 hover:bg-gray-500" style="border-left: hidden">Add</button>
+  <div id="introDiv" class="text-white">
+    <input v-model="textBox" class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800" />
+    <button v-on:click="addToList" class=" px-4 hover:bg-green-800 rounded ml-2 text-gray-400">Add</button>
     <div class="container max-w-md mx-auto">
       <table class="container">
         <tr
           v-for="(memo, index) in memos"
           :key="index"
-          class="border-solid border-b-2 border-black"
+          class="border-solid border-b-2 border-gray-800"
         >
           <td class="py-4 text-left w-1/2">
             <span>{{ memo.text }} :</span>
@@ -15,18 +15,18 @@
           <td>
               <span>{{ memo.quant }}</span>
           </td>
-          <td class="text-right">
+          <td class="text-right text-gray-400">
             <button
               v-on:click="addOne(index)"
-              class="border-solid border-2 border-gray-600 w-8 h-8 text-xl hover:bg-gray-500 align-middle mx-2"
+              class="w-8 h-8 text-xl hover:bg-green-800 mx-2 rounded"
             >+</button>
             <button
               v-on:click="removeOne(index)"
-              class="border-solid border-2 border-gray-600 w-8 h-8 text-xl hover:bg-gray-500 align-middle mx-2"
+              class="w-8 h-8 text-xl hover:bg-purple-800 mx-2 rounded"
             >-</button>
             <button
               v-on:click="removeItem(index)"
-              class="border-solid border-2 border-gray-600 w-16 h-8 hover:bg-red-500 align-middle mx-2"
+              class="w-16 h-8 hover:bg-red-600 mx-2 rounded"
             >remove</button>
           </td>
         </tr>

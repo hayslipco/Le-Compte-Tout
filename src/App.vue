@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="mx-auto"/>
-    <p>Le Compte-Tout</p>
+    <p class="text-white">Le Compte-Tout</p>
     <Counter/>
   </div>
 </template>
 
 <script>
 import Counter from "./components/List.vue";
+import './assets/css/main.css';
 
 export default {
   name: "app",
