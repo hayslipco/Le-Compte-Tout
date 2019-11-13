@@ -1,34 +1,45 @@
 <template>
   <div id="introDiv" class="text-white">
-    <input v-model="textBox" class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800" />
-    <button v-on:click="addToList" class=" px-4 hover:bg-green-800 rounded ml-2 text-gray-400">Add</button>
-    <div class="container max-w-md mx-auto">
+    <div id="topDiv" class="flex justify-center content-between flex-wrap">
+      <input v-model="textBox" class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center" />
+      <div>
+        <button v-on:click="addToList" class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2">Add</button>
+        <button id="toggleRem" v-on:click="toggleRemove()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Remove</button>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 md:max-w-xl">
       <table class="container">
         <tr
           v-for="(memo, index) in memos"
           :key="index"
           class="border-solid border-b-2 border-gray-800"
         >
-          <td class="py-4 text-left w-1/2">
+          <td class="py-4 text-center w-1/2">
             <span>{{ memo.text }} :</span>
           </td>
-          <td>
+          <td class="w-8 text-left">
               <span>{{ memo.quant }}</span>
           </td>
-          <td class="text-right text-gray-400">
-            <button
-              v-on:click="addOne(index)"
-              class="w-8 h-8 text-xl hover:bg-green-800 mx-2 rounded"
-            >+</button>
-            <button
-              v-on:click="removeOne(index)"
-              class="w-8 h-8 text-xl hover:bg-purple-800 mx-2 rounded"
-            >-</button>
-            <button
-              v-on:click="removeItem(index)"
-              class="w-16 h-8 hover:bg-red-600 mx-2 rounded"
-            >remove</button>
-          </td>
+          <transition name="transb" mode="out-in">
+            <td v-if="!removal" key="countTd" class="text-right text-gray-400">
+              <div key="plusMinus">
+                <button
+                  key="plus"
+                  v-on:click="addOne(index)"
+                  class="w-8 h-8 text-xl hover:bg-green-800 mx-2 rounded"
+                >+</button>
+                <button
+                key="minus"
+                  v-on:click="removeOne(index)"
+                  class="w-8 h-8 text-xl hover:bg-purple-800 mx-2 rounded"
+                >-</button>
+              </div>
+            </td>
+            <td v-else  key="removalTd" class="text-right text-gray-400">
+              <button key="remove" v-on:click="removeItem(index)" class="w-16 h-8 text-l hover:bg-red-900 mx-2 rounded">Remove</button>
+            </td>
+          </transition>
         </tr>
       </table>
     </div>
@@ -40,7 +51,8 @@ export default {
   data() {
     return {
       textBox: "",
-      memos: []
+      memos: [],
+      removal: false,
     };
   },
   props: {},
@@ -64,6 +76,12 @@ export default {
 
     removeOne: function(index) {
       this.memos[index].quant--;
+    },
+
+    toggleRemove(){
+      this.removal = !this.removal;
+      let btnMsg = this.removal ? "Count" : "Remove";
+      document.querySelector("#toggleRem").innerHTML = btnMsg;
     }
   }
 };

@@ -1,3 +1,9 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
 button{
   vertical-align: middle;
   height: 2rem;
@@ -6,8 +12,12 @@ button{
   border-width: 2px;
 }
 
-@tailwind base;
+.transb-enter-active, .transb-leave-active{
+  transition: all 0.05s;
+  
+}
 
-@tailwind components;
-
-@tailwind utilities;
+.transb-enter, .transb-leave-to{
+  opacity: 0;
+  transform: translateX(3px);
+}
