@@ -5,6 +5,7 @@
       <div>
         <button v-on:click="addToList" class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2">Add</button>
         <button id="toggleRem" v-on:click="toggleRemove()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Remove</button>
+        <button v-on:click="getList()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Get list</button>
       </div>
     </div>
 
@@ -47,6 +48,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -57,6 +60,26 @@ export default {
   },
   props: {},
   methods: {
+
+    //ajax testing
+    getList: function(){
+      
+      this.data = [];
+      axios.get("http://localhost").then(function (response){
+
+        this.data = response.data[0];
+        console.debug(window.data);
+
+      }).catch(function(error){
+        
+        console.log(error);
+
+      });
+
+      this.addMemos(this.data);
+
+    },
+
     addToList: function() {
       if (this.textBox.trim().length > 0) {
         this.memos.push({
@@ -82,6 +105,16 @@ export default {
       this.removal = !this.removal;
       let btnMsg = this.removal ? "Count" : "Remove";
       document.querySelector("#toggleRem").innerHTML = btnMsg;
+    },
+
+    addMemos(data){
+
+      this.memos.push({
+        text: data["lisItemName"],
+        id: data["idList"],
+        quant: data["lisItemNum"]
+      })
+
     }
   }
 };
