@@ -51,6 +51,10 @@
 import axios from 'axios';
 
 export default {
+  created(){
+    this.getList();
+  },
+
   data() {
     return {
       textBox: "",
@@ -65,18 +69,22 @@ export default {
     getList: function(){
       
       this.data = [];
-      axios.get("http://localhost").then(function (response){
+      axios.get("http://localhost/getList/").then(response => {
 
-        this.data = response.data[0];
-        console.debug(window.data);
+        response.data.forEach(row => {
+          this.memos.push({
+          text: row["lisName"],
+          id: row["idList"],
+          quant: row["lisNum"]
+        });
+
+      });
 
       }).catch(function(error){
         
         console.log(error);
 
       });
-
-      this.addMemos(this.data);
 
     },
 
@@ -105,16 +113,6 @@ export default {
       this.removal = !this.removal;
       let btnMsg = this.removal ? "Count" : "Remove";
       document.querySelector("#toggleRem").innerHTML = btnMsg;
-    },
-
-    addMemos(data){
-
-      this.memos.push({
-        text: data["lisItemName"],
-        id: data["idList"],
-        quant: data["lisItemNum"]
-      })
-
     }
   }
 };
