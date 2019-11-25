@@ -88,6 +88,26 @@ export default {
 
     },
 
+    updateDB: function(name, quant){
+      
+      let updateData = [];
+      updateData["name"] = name;
+      updateData["quant"] = quant;
+
+      axios.post('http://localhost/update/', {
+        data: updateData,
+        config: { headers: {'Content-Type': 'multipart/form-data' }},
+      }).then(function(response){
+
+        console.log(response);
+      }).catch(function(response){
+
+        console.log(response);
+      });
+
+
+    },
+
     addToList: function() {
       if (this.textBox.trim().length > 0) {
         this.memos.push({
@@ -103,6 +123,7 @@ export default {
     },
     addOne: function(index) {
       this.memos[index].quant++;
+      this.updateDB(this.memos[index].text, this.memos[index].quant);
     },
 
     removeOne: function(index) {
