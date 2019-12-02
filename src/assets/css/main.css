@@ -13,11 +13,11 @@ button{
 }
 
 .transb-enter-active, .transb-leave-active{
-  transition: all 0.05s;
+  transition: all 0.1s;
   
 }
 
 .transb-enter, .transb-leave-to{
   opacity: 0;
-  transform: translateX(3px);
+  transform: rotateX(180deg);
 }

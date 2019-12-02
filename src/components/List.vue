@@ -5,7 +5,6 @@
       <div>
         <button v-on:click="addToList" class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2">Add</button>
         <button id="toggleRem" v-on:click="toggleRemove()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Remove</button>
-        <button v-on:click="getList()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Get list</button>
       </div>
     </div>
 
@@ -88,14 +87,14 @@ export default {
 
     },
 
-    updateDB: function(name, quant){
+    updateDB: function(name, quant, mode){
       
-      let updateData = [];
-      updateData["name"] = name;
-      updateData["quant"] = quant;
+      /* let updateData = new FormData();
+      updateData.append('name', name);
+      updateData.append('quant', quant); */
 
       axios.post('http://localhost/update/', {
-        data: updateData,
+        data: {name: name, quant: quant, mode: mode},
         config: { headers: {'Content-Type': 'multipart/form-data' }},
       }).then(function(response){
 
@@ -115,19 +114,24 @@ export default {
           id: this.memos.length,
           quant: 0
         });
+        this.updateDB(this.textBox, 0, "insert");
+
         this.textBox = "";
+
       }
     },
     removeItem: function(index) {
+      this.updateDB(this.memos[index].text, 0, "delete");
       this.memos.splice(index, 1);
     },
     addOne: function(index) {
       this.memos[index].quant++;
-      this.updateDB(this.memos[index].text, this.memos[index].quant);
+      this.updateDB(this.memos[index].text, this.memos[index].quant, "update");
     },
 
     removeOne: function(index) {
       this.memos[index].quant--;
+       this.updateDB(this.memos[index].text, this.memos[index].quant, "update");
     },
 
     toggleRemove(){
