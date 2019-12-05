@@ -68,7 +68,7 @@ export default {
     getList: function(){
       
       this.data = [];
-      axios.get("http://localhost/getList/").then(response => {
+      axios.get("http://localhost/server_ct/getList/").then(response => {
 
         response.data.forEach(row => {
           this.memos.push({
@@ -79,9 +79,9 @@ export default {
 
       });
 
-      }).catch(function(error){
+      }).catch(function(){
         
-        console.log(error);
+        //console.log(error);
 
       });
 
@@ -89,19 +89,15 @@ export default {
 
     updateDB: function(name, quant, mode){
       
-      /* let updateData = new FormData();
-      updateData.append('name', name);
-      updateData.append('quant', quant); */
-
-      axios.post('http://localhost/update/', {
+      axios.post('http://localhost/server_ct/update/', {
         data: {name: name, quant: quant, mode: mode},
         config: { headers: {'Content-Type': 'multipart/form-data' }},
-      }).then(function(response){
+      }).then(function(){
 
-        console.log(response);
-      }).catch(function(response){
+        //console.log(response);
+      }).catch(function(){
 
-        console.log(response);
+        //console.log(response);
       });
 
 

@@ -1,20 +1,10 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$password = 'root';
-$dbName = 'db_compte_tout';
+include_once('../database.php');
 
-try
-{
-   $con = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8" , $user, $password);
-}
-catch (PDOException $e)
-{
-   die('Erreur : ' . $e->getMessage());
-}
+$db = new database();
 
-$req = $con->query("SELECT * FROM t_list");
-$response = $req->fetchAll(PDO::FETCH_ASSOC);
+$db->queryExecute("SELECT * FROM t_list");
+$response = $db->fetchData(PDO::FETCH_ASSOC);
 
 echo json_encode($response);
 exit;

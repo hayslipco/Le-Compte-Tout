@@ -1,17 +1,5 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$password = 'root';
-$dbName = 'db_compte_tout';
-
-try
-{
-   $con = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8" , $user, $password);
-}
-catch (PDOException $e)
-{
-   die('Erreur : ' . $e->getMessage());
-}
+include_once('../database.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -29,8 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $query = "DELETE FROM t_list WHERE lisName='$name'";
     }
 
-
-    $response = $con->query($query);
+    $db = new database();
+    $response = $db->queryExecute($query);
+    
 } else{
     $response = "noPOST";
 }
