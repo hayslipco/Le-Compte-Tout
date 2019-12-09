@@ -1,4 +1,4 @@
-# compte-tout-infra
+# le-compte-tout
 
 ## Project setup
 ```
