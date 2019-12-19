@@ -1,15 +1,29 @@
 <?php
 
+require('../vendor/autoload.php');
+
 /**
  * Auteur: Corwin H.
  * Date: 05.12.2019
  * Lieu: ETML
  * Description: Page permettant la connexion à une db d'un site de surnoms d'enseignants
  */
-$host = 'localhost';
-$user = 'compteur';
-$password = 'okcool123';
-$dbName = 'db_compte_tout';
+
+ //with cleardb
+ /* $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+$host = $url["host"];
+$user = $url["user"];
+$password = $url["pass"];
+$dbName = substr($url["path"], 1); */
+
+//with remotesql.com
+$host = 'remotemysql.com:3306';
+$user = 'LAGvAwusu3';
+$password = 'sun4XhAhp6';
+$dbName = 'LAGvAwusu3';
+
+
 
 class database{
 
@@ -19,7 +33,7 @@ class database{
     function __construct()
     {
         try {
-            $this->connector = new PDO('mysql:host=localhost;dbname=db_compte_tout;charset=utf8', 'compteur', 'okcool123');
+            $this->connector = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8", $user, $password);
         } catch (PDOException $e) {
             print("Erreur: " . $e);
             die('Erreur: ' + $e->getMessage());
