@@ -1,7 +1,5 @@
 <?php
 
-require('../vendor/autoload.php');
-
 /**
  * Auteur: Corwin H.
  * Date: 05.12.2019
@@ -17,23 +15,26 @@ $user = $url["user"];
 $password = $url["pass"];
 $dbName = substr($url["path"], 1); */
 
-//with remotesql.com
-$host = 'remotemysql.com:3306';
-$user = 'LAGvAwusu3';
-$password = 'sun4XhAhp6';
-$dbName = 'LAGvAwusu3';
 
 
+
+header("Access-Control-Allow-Origin: *");
 
 class database{
-
+    
     protected $connector;
     protected $req;
+    
+    //with remotesql.com
+    protected $host = 'remotemysql.com:3306';
+    protected $user = 'LAGvAwusu3';
+    protected $password = 'sun4XhAhp6';
+    protected $dbName = 'LAGvAwusu3';
 
     function __construct()
     {
         try {
-            $this->connector = new PDO("mysql:host=$host;dbname=$dbName;charset=utf8", $user, $password);
+            $this->connector = new PDO("mysql:host=$this->host;dbname=$this->dbName;charset=utf8", $this->user, $this->password);
         } catch (PDOException $e) {
             print("Erreur: " . $e);
             die('Erreur: ' + $e->getMessage());
