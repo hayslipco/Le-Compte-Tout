@@ -68,7 +68,7 @@ export default {
     getList: function(){
       
       this.data = [];
-      axios.get("http://localhost/server_ct/getList/").then(response => {
+      axios.get("http://mighty-woodland-68724.herokuapp.com/getList/").then(response => {
 
         response.data.forEach(row => {
           this.memos.push({
@@ -89,7 +89,7 @@ export default {
 
     updateDB: function(name, quant, mode){
       
-      axios.post('http://localhost/server_ct/update/', {
+      axios.post('http://mighty-woodland-68724.herokuapp.com/update/', {
         data: {name: name, quant: quant, mode: mode},
         config: { headers: {'Content-Type': 'multipart/form-data' }},
       }).then(function(){
