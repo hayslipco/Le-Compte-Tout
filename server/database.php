@@ -15,7 +15,7 @@ $user = $url["user"];
 $password = $url["pass"];
 $dbName = substr($url["path"], 1); */
 
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: https://el-compte-tout.netlify.com/");
 
 header('Access-Control-Allow-Methods: GET, POST');
 
