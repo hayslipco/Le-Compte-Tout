@@ -22,3 +22,6 @@ yarn-error.log*
 
 #vendor directory
 /vendor/
+
+#faker directory
+/faker/
