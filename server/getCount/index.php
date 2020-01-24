@@ -5,10 +5,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $data = json_decode(file_get_contents('php://input'), true)["data"];
 
-    $idUser = $data['idUser'];
-    $query = "SELECT * FROM `t_list` NATURAL JOIN t_listOwners WHERE t_listOwners.idUser = :idUser";
+    $idList = $data['idList'];
+    $query = "SELECT * FROM `t_count` WHERE `idList` = :idList";
 
-    $params = array(array("name" => "idUser", "value" => $idUser, "type" => PDO::PARAM_INT));
+    $params = array(array("name" => "idList", "value" => $idList, "type" => PDO::PARAM_INT));
 
     $db = new database();
 

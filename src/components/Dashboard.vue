@@ -1,15 +1,12 @@
 <template>
     <div>
         <ul class="text-white my-10 text-2xl w-64 mx-auto">
-            <li v-for="(list, index) in allLists"
-            :key="index"
+            <li v-for="list in allLists"
+            :key="list.id"
             class="my-2 border-2 border-white border-solid rounded hover:bg-green-600"
-            v-on:click="submit(index)"
-            >{{list}}</li>
-<!--             <li class="my-2 border-2 border-white border-solid rounded hover:bg-green-600" v-on:click="submit(0)">Liste des courses</li>
-            <li class="my-2 border-2 border-white border-solid rounded hover:bg-green-600" v-on:click="submit(1)">Partie de scrabble</li>
-            <li class="my-2 border-2 border-white border-solid rounded hover:bg-green-600" v-on:click="submit(2)">SHK</li>-->
-            <li class="my-2 border-2 border-gray-500 border-dashed rounded hover:bg-green-600 text-gray-500" v-on:click="submit(2)">Nouvelle liste</li>
+            v-on:click="submit(list.id)"
+            >{{list.name}}</li>
+            <li class="my-2 border-2 border-gray-500 border-dashed rounded hover:bg-green-600 text-gray-500" v-on:click="submit(-1)">Nouvelle liste</li>
         </ul>
     </div>
 </template>
@@ -32,7 +29,7 @@ export default {
             selectedList: -1,
             //the users lists
             allLists: [],
-            idUser: 5,
+            idUser: 10,
         }
     },
 
@@ -51,15 +48,19 @@ export default {
                 config: {headers: {'Content-Type': 'multipart/form-data' }}
             }).then(response => {
 
+                //console.log(response.data);
+
                 response.data.forEach(row => {
-                this.allLists.push(
-                    row["lisName"]
+                this.allLists.push({
+                        name: row["lisName"],
+                        id: row["idList"],
+                    }
                 );
             });
             }).catch(function(error){
                 
                 //console.log(error);
-                alert(error)
+                alert("axios error: " + error)
 
             });
         },

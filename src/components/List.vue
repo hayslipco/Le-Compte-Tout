@@ -1,10 +1,20 @@
 <template>
   <div id="introDiv" class="text-white">
     <div id="topDiv" class="flex justify-center content-between flex-wrap">
-      <input v-model="textBox" class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center" />
+      <input
+        v-model="textBox"
+        class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center"
+      />
       <div>
-        <button v-on:click="addToList" class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2">Add</button>
-        <button id="toggleRem" v-on:click="toggleRemove()" class="w-16 h-8 hover:bg-red-600 mx-2 rounded">Remove</button>
+        <button
+          v-on:click="addToList"
+          class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2"
+        >Add</button>
+        <button
+          id="toggleRem"
+          v-on:click="toggleRemove()"
+          class="w-16 h-8 hover:bg-red-600 mx-2 rounded"
+        >Remove</button>
       </div>
     </div>
 
@@ -19,7 +29,7 @@
             <span>{{ memo.text }} :</span>
           </td>
           <td class="w-8 text-left">
-              <span>{{ memo.quant }}</span>
+            <span>{{ memo.quant }}</span>
           </td>
           <transition name="transb" mode="out-in">
             <td v-if="!removal" key="countTd" class="text-right text-gray-400">
@@ -30,14 +40,18 @@
                   class="w-8 h-8 text-xl hover:bg-green-800 mx-2 rounded"
                 >+</button>
                 <button
-                key="minus"
+                  key="minus"
                   v-on:click="removeOne(index)"
                   class="w-8 h-8 text-xl hover:bg-purple-800 mx-2 rounded"
                 >-</button>
               </div>
             </td>
-            <td v-else  key="removalTd" class="text-right text-gray-400">
-              <button key="remove" v-on:click="removeItem(index)" class="w-16 h-8 text-l hover:bg-red-900 mx-2 rounded">Remove</button>
+            <td v-else key="removalTd" class="text-right text-gray-400">
+              <button
+                key="remove"
+                v-on:click="removeItem(index)"
+                class="w-16 h-8 text-l hover:bg-red-900 mx-2 rounded"
+              >Remove</button>
             </td>
           </transition>
         </tr>
@@ -47,11 +61,15 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  created(){
-    this.getList();
+  created() {
+    this.getCount();
+  },
+
+  props: {
+    idList: Number
   },
 
   data() {
@@ -61,46 +79,61 @@ export default {
       removal: false,
     };
   },
-  props: {},
+
   methods: {
-
     //ajax testing
-    getList: function(){
-      
+    getList: function() {
       this.data = [];
-      axios.get("https://mighty-woodland-68724.herokuapp.com/getList/").then(response => {
-
-        response.data.forEach(row => {
-          this.memos.push({
-          text: row["lisName"],
-          id: row["idList"],
-          quant: row["lisNum"]
+      axios
+        .get("https://mighty-woodland-68724.herokuapp.com/getList/")
+        .then(response => {
+          response.data.forEach(row => {
+            this.memos.push({
+              text: row["lisName"],
+              id: row["idList"],
+              quant: row["lisNum"]
+            });
+          });
+        })
+        .catch(function() {
+          //console.log(error);
         });
-
-      });
-
-      }).catch(function(){
-        
-        //console.log(error);
-
-      });
-
     },
 
-    updateDB: function(name, quant, mode){
-      
-      axios.post('https://mighty-woodland-68724.herokuapp.com/update/', {
-        data: {name: name, quant: quant, mode: mode},
-        config: { headers: {'Content-Type': 'multipart/form-data' }},
-      }).then(function(){
+    getCount: function() {
+      this.data = [];
+      axios
+        .post("http://127.0.0.1/server_ct/getCount/", {
+          data: { idList: this.idList },
+          config: { headers: { "Content-Type": "multipart/form-data" } }
+        })
+        .then(response => {
+          response.data.forEach(row => {
+            this.memos.push({
+              text: row["couName"],
+              id: row["idCount"],
+              quant: parseInt(row["couCount"], 10)
+            });
+          });
+        })
+        .catch(function(error) {
+          //console.log(error);
+          alert(error);
+        });
+    },
 
-        //console.log(response);
-      }).catch(function(){
-
-        //console.log(response);
-      });
-
-
+    updateDB: function(name, quant, mode) {
+      axios
+        .post("https://mighty-woodland-68724.herokuapp.com/update/", {
+          data: { name: name, quant: quant, mode: mode },
+          config: { headers: { "Content-Type": "multipart/form-data" } }
+        })
+        .then(function() {
+          //console.log(response);
+        })
+        .catch(function() {
+          //console.log(response);
+        });
     },
 
     addToList: function() {
@@ -113,7 +146,6 @@ export default {
         this.updateDB(this.textBox, 0, "insert");
 
         this.textBox = "";
-
       }
     },
     removeItem: function(index) {
@@ -127,10 +159,10 @@ export default {
 
     removeOne: function(index) {
       this.memos[index].quant--;
-       this.updateDB(this.memos[index].text, this.memos[index].quant, "update");
+      this.updateDB(this.memos[index].text, this.memos[index].quant, "update");
     },
 
-    toggleRemove(){
+    toggleRemove() {
       this.removal = !this.removal;
       let btnMsg = this.removal ? "Count" : "Remove";
       document.querySelector("#toggleRem").innerHTML = btnMsg;
