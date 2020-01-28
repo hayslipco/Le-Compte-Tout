@@ -36,7 +36,7 @@ export default {
     },
 
     methods: {
-        submitLogin: function(e){
+        submitLogin: function(){
             this.data = [];
             axios.post("http://127.0.0.1/server_ct/login/", {
                 data: {username: this.username, pwd: this.pwd},
@@ -44,7 +44,7 @@ export default {
             })
             .then(response => {
                 this.authenticated = response.data;
-                console.log(this.authenticated);
+                //console.log(this.authenticated);
                 this.verifyResponse();
             })
             .catch(function(error) {
