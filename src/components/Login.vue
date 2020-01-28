@@ -9,6 +9,8 @@
             <br>
             <button v-on:click="submitLogin"
              class="px-4 hover:bg-green-800 rounded ml-2 text-gray-400 my-2 w-32">Sign in</button>
+             <br>
+             <p id="errorMsg" class="text-red-500"></p>
         </div>
     </div>
 </template>
@@ -17,6 +19,14 @@
 import axios from "axios";
 
 export default {
+    created(){
+        window.addEventListener('keypress', this.submitLogin);
+    },
+
+    destroyed(){
+        window.removeEventListener('keypress', this.submitLogin);
+    },
+
     data(){
         return{
             username: "",
@@ -26,7 +36,7 @@ export default {
     },
 
     methods: {
-        submitLogin: function(){
+        submitLogin: function(e){
             this.data = [];
             axios.post("http://127.0.0.1/server_ct/login/", {
                 data: {username: this.username, pwd: this.pwd},
@@ -34,8 +44,8 @@ export default {
             })
             .then(response => {
                 this.authenticated = response.data;
-                this.$emit("authentic", this.authenticated);
-                console.log(response.data);
+                console.log(this.authenticated);
+                this.verifyResponse();
             })
             .catch(function(error) {
                 alert("login error" + error);
@@ -43,7 +53,13 @@ export default {
         },
 
         verifyResponse: function(){
-            
+            if(this.authenticated.idUser >= 0){
+                this.$emit("user", this.authenticated);
+            } else{
+                this.username = "";
+                this.pwd = "";
+                document.querySelector("#errorMsg").innerHTML = "Bad creds man...";
+            }
         }
     }
 }

@@ -2,9 +2,9 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="mx-auto"/>
     <p class="text-white">Le Compte-Tout</p>
-    <Login/>
+    <Login v-if="loggedOut" @user="saveUserInfo"/>
     <!-- @selectedList listener to make variable available-->
-    <Dashboard v-if="onDashboard" @selectedList="goToList"/>
+    <Dashboard v-else-if="onDashboard" @selectedList="goToList" v-bind:idUser="this.idUser" v-bind:username="this.username"/>
     <Counter v-else v-bind:idList="this.chosenList"/>
   </div>
 </template>
@@ -26,8 +26,10 @@ export default {
   data(){
     return{
       onDashboard: true,
+      loggedOut: true,
       chosenList: -1,
       idUser: -1,
+      username: "",
     }
   },
 
@@ -37,6 +39,13 @@ export default {
       this.chosenList = parseInt(variable, 10);
       alert(this.chosenList);
       this.onDashboard = false;
+    },
+
+    saveUserInfo: function(variable) {
+      this.username = variable.username;
+      this.idUser = parseInt(variable.idUser, 10);
+      alert("Welcome " + this.username + " !");
+      this.loggedOut = false;
     }
   }
 };

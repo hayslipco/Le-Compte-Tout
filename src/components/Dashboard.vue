@@ -29,8 +29,12 @@ export default {
             selectedList: -1,
             //the users lists
             allLists: [],
-            idUser: 10,
         }
+    },
+
+    props: {
+        idUser: Number,
+        username: String,
     },
 
     methods: {
@@ -49,7 +53,6 @@ export default {
             }).then(response => {
 
                 //console.log(response.data);
-
                 response.data.forEach(row => {
                 this.allLists.push({
                         name: row["lisName"],
