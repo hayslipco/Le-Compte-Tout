@@ -116,7 +116,6 @@ export default {
             if(this.authenticated.idUser >= 0){
                 this.$emit("user", this.authenticated);
             }else {
-                this.username = "";
                 this.pwd = "";
                 document.querySelector("#errorMsg").innerHTML = "Bad creds man...";
                 document.querySelector("#username").select();
