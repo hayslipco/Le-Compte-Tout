@@ -10,7 +10,7 @@
             <input id="confirmPwd" placeholder="confirm password" type="password"
             class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center my-2 p-1"
             v-if="registering"
-            v-bind="confirmPwd">
+            v-model="confirmPwd">
             <br>
             <!-- Login button -->
             <input id="loginButton" 
