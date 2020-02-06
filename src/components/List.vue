@@ -1,6 +1,7 @@
 <template>
   <div id="introDiv" class="text-white">
     <div id="topDiv" class="flex justify-center content-between flex-wrap">
+      <img src="../assets/backArrow.png" alt="go back" class="w-10 h-10 cursor-pointer self-center mr-2">
       <input
         v-model="textBox"
         class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center"

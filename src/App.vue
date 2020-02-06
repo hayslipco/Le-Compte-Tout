@@ -2,7 +2,10 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="mx-auto"/>
     <p class="text-white">Le Compte-Tout</p>
-    <Login v-if="loggedOut" @user="saveUserInfo"/>
+    <div class="text-white flex justify-center self-start" v-if="!loggedOut">
+      <p>Connected as: {{username}} <span class="underline text-green-500 cursor-pointer" v-on:click="logout">Logout</span></p>
+    </div>
+      <Login v-if="loggedOut" @user="saveUserInfo"/>
     <!-- @selectedList listener to make variable available-->
     <Dashboard v-else-if="onDashboard" @selectedList="goToList" v-bind:idUser="this.idUser" v-bind:username="this.username"/>
     <Counter v-else v-bind:idList="this.chosenList"/>
@@ -37,7 +40,7 @@ export default {
     //get variable from listener (@selectedList="goToList") and assign to chosenList
     goToList: function(variable) {
       this.chosenList = parseInt(variable, 10);
-      alert(this.chosenList);
+      //alert(this.chosenList);
       this.onDashboard = false;
     },
 
@@ -46,6 +49,14 @@ export default {
       this.idUser = parseInt(variable.idUser, 10);
       alert("Welcome " + this.username + " !");
       this.loggedOut = false;
+    },
+
+    logout: function(){
+      this.loggedOut = true;
+      this.onDashboard = true;
+      this.chosenList = -1;
+      this.idUser = -1;
+      this.username = "";
     }
   }
 };

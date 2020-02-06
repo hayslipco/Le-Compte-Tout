@@ -53,18 +53,26 @@ export default {
             }
 
             e.preventDefault()
-            this.submitLogin();
+            if(this.registering){
+                this.submitRegister();
+            } else{
+                this.submitLogin();
+            }
         });
     },
 
-    destroyed(){
+    beforeDestroy(){
         window.removeEventListener('keypress', (e) => {
             if (e.keyCode !== 13){
                 return
             }
 
             e.preventDefault()
-            this.submitLogin();
+            if(this.registering){
+                this.submitRegister();
+            } else{
+                this.submitLogin();
+            }
         });
     },
 
