@@ -1,7 +1,7 @@
 <template>
   <div id="introDiv" class="text-white">
     <div id="topDiv" class="flex justify-center content-between flex-wrap">
-      <img src="../assets/backArrow.png" alt="go back" class="w-10 h-10 cursor-pointer self-center mr-2">
+      <img src="../assets/backArrow.png" alt="go back" class="w-10 h-10 cursor-pointer self-center mr-2" v-on:click="back">
       <input
         v-model="textBox"
         class="border-solid border-2 border-gray-800 text-gray-400 rounded bg-gray-800 h-8 self-center"
@@ -78,6 +78,7 @@ export default {
       textBox: "",
       memos: [],
       removal: false,
+      returnDashboard: false,
     };
   },
 
@@ -86,7 +87,7 @@ export default {
     getList: function() {
       this.data = [];
       axios
-        .get("https://mighty-woodland-68724.herokuapp.com/getList/")
+        .get(this.$store.state.SRVROOT + "getList/")
         .then(response => {
           response.data.forEach(row => {
             this.memos.push({
@@ -104,7 +105,7 @@ export default {
     getCount: function() {
       this.data = [];
       axios
-        .post("http://127.0.0.1/server_ct/getCount/", {
+        .post(this.$store.state.SRVROOT + "getCount/", {
           data: { idList: this.idList },
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
@@ -125,7 +126,7 @@ export default {
 
     updateDB: function(name, quant, mode) {
       axios
-        .post("https://mighty-woodland-68724.herokuapp.com/update/", {
+        .post(this.$store.state.SRVROOT + "update/", {
           data: { name: name, quant: quant, mode: mode },
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
@@ -167,6 +168,12 @@ export default {
       this.removal = !this.removal;
       let btnMsg = this.removal ? "Count" : "Remove";
       document.querySelector("#toggleRem").innerHTML = btnMsg;
+    },
+
+    back: function(){
+      this.returnDashboard = true;
+      this.$emit("goBack");
+      //alert("nani?!");
     }
   }
 };

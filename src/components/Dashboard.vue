@@ -52,7 +52,6 @@ export default {
 
     data(){
         return{
-            SERVER_PATH: "http://127.0.0.1/server_ct/",
             //the data that will be passed to App.vue
             selectedList: -1,
             //the users lists
@@ -77,7 +76,7 @@ export default {
         getAllLists: function(){
     
             this.data = [];
-            axios.post("http://127.0.0.1/server_ct/getUserLists/", {
+            axios.post(this.$store.state.SRVROOT + "getUserLists/", {
                 data: {idUser: this.idUser},
                 config: {headers: {'Content-Type': 'multipart/form-data' }}
             }).then(response => {
@@ -114,7 +113,7 @@ export default {
         newList: function(){
             console.log(this.newListName);
             this.data = [];
-            axios.post(this.SERVER_PATH + "newList/", {
+            axios.post(this.$store.state.SRVROOT + "newList/", {
                 data: {listName: this.newListName, idUser: this.idUser},
                 config: {headers: {'Content-Type': 'multipart/form-data' }}
             }).then(response => {

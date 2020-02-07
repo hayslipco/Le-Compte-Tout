@@ -8,7 +8,7 @@
       <Login v-if="loggedOut" @user="saveUserInfo"/>
     <!-- @selectedList listener to make variable available-->
     <Dashboard v-else-if="onDashboard" @selectedList="goToList" v-bind:idUser="this.idUser" v-bind:username="this.username"/>
-    <Counter v-else v-bind:idList="this.chosenList"/>
+    <Counter v-else v-bind:idList="this.chosenList" @goBack="dashboardReturn"/>
   </div>
 </template>
 
@@ -57,6 +57,10 @@ export default {
       this.chosenList = -1;
       this.idUser = -1;
       this.username = "";
+    },
+
+    dashboardReturn: function(){
+      this.onDashboard = true;
     }
   }
 };

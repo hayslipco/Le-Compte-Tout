@@ -15,14 +15,14 @@
             <!-- Login button -->
             <input id="loginButton" 
             v-on:click="submitLogin"
-             class="px-4 hover:bg-green-800 rounded ml-2 text-white my-2 w-32 bg-gray-800 border border-black border-solid"
+             class="px-4 hover:bg-green-800 rounded ml-2 text-white my-2 w-32 bg-gray-800 border border-black border-solid cursor-pointer"
              type="button"
              value="Login"
              v-if="!registering">
              <!-- Sign up button -->
             <input id="signUpButton" 
             v-on:click="submitRegister"
-             class="px-4 hover:bg-green-800 rounded ml-2 text-white my-2 w-32 bg-gray-800 border border-black border-solid"
+             class="px-4 hover:bg-green-800 rounded ml-2 text-white my-2 w-32 bg-gray-800 border border-black border-solid cursor-pointer"
              type="button"
              value="Sign up"
              v-else>
@@ -90,7 +90,7 @@ export default {
     methods: {
         submitLogin: function(){
             this.data = [];
-            axios.post("http://127.0.0.1/server_ct/login/", {
+            axios.post(this.$store.state.SRVROOT + "login/", {
                 data: {username: this.username, pwd: this.pwd},
                 config: {headers: {"Content-Type": "multipart/form-data"}}
             })
@@ -106,7 +106,7 @@ export default {
 
         submitRegister: function(){
             this.data = [];
-            axios.post("http://127.0.0.1/server_ct/register/", {
+            axios.post(this.$store.state.SRVROOT + "register/", {
                 data: {username: this.username, pwd: this.pwd},
                 config: {headers: {"Content-Type": "multipart/form-data"}}
             })
