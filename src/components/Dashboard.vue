@@ -37,7 +37,7 @@ export default {
         });
     },
 
-    destroyed(){
+    beforeDestroy(){
          window.removeEventListener('keypress', (e) => {
             if(this.addingNewList){
                 if (e.keyCode !== 13){
@@ -54,6 +54,7 @@ export default {
         return{
             //the data that will be passed to App.vue
             selectedList: -1,
+            selectedListName: "",
             //the users lists
             allLists: [],
             newListName: "",
@@ -70,7 +71,9 @@ export default {
         //send clicked list to App.vue
         submit: function(index) {
             this.selectedList = index;
-            this.$emit("selectedList", this.selectedList);
+            this.selectedListName = this.allLists.find(list => list.id === index).name;
+            //alert(this.selectedListName);
+            this.$emit("selectedList", {'id':this.selectedList, 'name':this.selectedListName});
         },
 
         getAllLists: function(){
@@ -112,23 +115,25 @@ export default {
 
         newList: function(){
             console.log(this.newListName);
-            this.data = [];
-            axios.post(this.$store.state.SRVROOT + "newList/", {
-                data: {listName: this.newListName, idUser: this.idUser},
-                config: {headers: {'Content-Type': 'multipart/form-data' }}
-            }).then(response => {
-                console.log(response.data);
-                if(response.data == 201){
-                    alert("list successfully added");
-                    this.updateLists();
-                } else if (response.data == -1){
-                    alert("list already exists");
-                } else {
-                    alert("something went wrong lol");
-                }
-            }).catch(function(error){
-                alert("axios error: " + error);
-            })
+            if(this.newListName != ""){
+                this.data = [];
+                axios.post(this.$store.state.SRVROOT + "newList/", {
+                    data: {listName: this.newListName, idUser: this.idUser},
+                    config: {headers: {'Content-Type': 'multipart/form-data' }}
+                }).then(response => {
+                    console.log(response.data);
+                    if(response.data == 201){
+                        alert("list successfully added");
+                        this.updateLists();
+                    } else if (response.data == -1){
+                        alert("list already exists");
+                    } else {
+                        alert("something went wrong lol");
+                    }
+                }).catch(function(error){
+                    alert("axios error: " + error);
+                })
+            }
         }
     }
 }

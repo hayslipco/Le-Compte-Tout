@@ -1,5 +1,7 @@
 <template>
   <div id="introDiv" class="text-white">
+   
+    <p class="text-white text-3xl mt-8 mb-2 border-t border-solid max-w-xs mx-auto">{{this.listName}}</p>
     <div id="topDiv" class="flex justify-center content-between flex-wrap">
       <img src="../assets/backArrow.png" alt="go back" class="w-10 h-10 cursor-pointer self-center mr-2" v-on:click="back">
       <input
@@ -70,7 +72,9 @@ export default {
   },
 
   props: {
-    idList: Number
+    idList: Number,
+    idUser: Number,
+    listName: String,
   },
 
   data() {
@@ -127,14 +131,14 @@ export default {
     updateDB: function(name, quant, mode) {
       axios
         .post(this.$store.state.SRVROOT + "update/", {
-          data: { name: name, quant: quant, mode: mode },
+          data: { name: name, quant: quant, mode: mode, idList: this.idList, idUser: this.idUser },
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
-        .then(function() {
-          //console.log(response);
+        .then(function(response) {
+          console.log(response);
         })
-        .catch(function() {
-          //console.log(response);
+        .catch(function(err) {
+          console.log("error: " + err);
         });
     },
 

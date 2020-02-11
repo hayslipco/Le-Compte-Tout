@@ -11,6 +11,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state:{
     SRVROOT: "http://127.0.0.1/server_ct/",
+    loggedIn: false,
   }
 })
 

@@ -2,13 +2,13 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="mx-auto"/>
     <p class="text-white">Le Compte-Tout</p>
-    <div class="text-white flex justify-center self-start" v-if="!loggedOut">
+    <div class="text-white flex justify-center self-start" v-if="this.$store.state.loggedIn">
       <p>Connected as: {{username}} <span class="underline text-green-500 cursor-pointer" v-on:click="logout">Logout</span></p>
     </div>
-      <Login v-if="loggedOut" @user="saveUserInfo"/>
+      <Login v-if="!this.$store.state.loggedIn" @user="saveUserInfo"/>
     <!-- @selectedList listener to make variable available-->
     <Dashboard v-else-if="onDashboard" @selectedList="goToList" v-bind:idUser="this.idUser" v-bind:username="this.username"/>
-    <Counter v-else v-bind:idList="this.chosenList" @goBack="dashboardReturn"/>
+    <Counter v-else v-bind:idList="this.chosenList" v-bind:idUser="this.idUser" v-bind:listName="this.chosenListName" @goBack="dashboardReturn"/>
   </div>
 </template>
 
@@ -29,8 +29,8 @@ export default {
   data(){
     return{
       onDashboard: true,
-      loggedOut: true,
       chosenList: -1,
+      chosenListName: "",
       idUser: -1,
       username: "",
     }
@@ -39,8 +39,9 @@ export default {
   methods: {
     //get variable from listener (@selectedList="goToList") and assign to chosenList
     goToList: function(variable) {
-      this.chosenList = parseInt(variable, 10);
-      //alert(this.chosenList);
+      this.chosenList = parseInt(variable['id'], 10);
+      this.chosenListName = variable['name'];
+      //alert(variable['name']);
       this.onDashboard = false;
     },
 
@@ -48,11 +49,11 @@ export default {
       this.username = variable.username;
       this.idUser = parseInt(variable.idUser, 10);
       alert("Welcome " + this.username + " !");
-      this.loggedOut = false;
+      this.$store.state.loggedIn = true;
     },
 
     logout: function(){
-      this.loggedOut = true;
+      this.$store.state.loggedIn = false;
       this.onDashboard = true;
       this.chosenList = -1;
       this.idUser = -1;
