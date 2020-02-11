@@ -33,6 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $current .= "\n user exists !, variable: usr: $userExists / reg: $registered";
         file_put_contents($file, $current);
     } else{
+        //hash the users password before storing
+        $pwd = hash('sha256', $pwd);
+
         //register user
         $query = "INSERT INTO t_user (useUsername, usePassword) VALUES(:username, :pwd)";
         $usrnameParam = array("name" => "username", "value" => $username, "type" => PDO::PARAM_STR);

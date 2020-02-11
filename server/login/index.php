@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     //if the user exists
     if(!empty($result) && count($result) == 1){
-        //compare passwords
-        if($pwd == $result[0]["usePassword"]){
+        //compare hashed passwords
+        if(hash('sha256', $pwd) == $result[0]["usePassword"]){
             $authentic = true;
         }
     }

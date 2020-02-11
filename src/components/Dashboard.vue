@@ -22,10 +22,10 @@ import axios from 'axios';
 
 
 export default {
-    created(){
+    mounted(){
         this.getAllLists();
-
-        window.addEventListener('keypress', (e) => {
+        //eventlistener pour la touche "enter"
+        document.addEventListener('keypress', (e) => {
             if(this.addingNewList){
                 if (e.keyCode !== 13){
                     return
@@ -38,7 +38,7 @@ export default {
     },
 
     beforeDestroy(){
-         window.removeEventListener('keypress', (e) => {
+         document.removeEventListener('keypress', (e) => {
             if(this.addingNewList){
                 if (e.keyCode !== 13){
                     return
@@ -114,14 +114,14 @@ export default {
         },
 
         newList: function(){
-            console.log(this.newListName);
-            if(this.newListName != ""){
+            //console.log(this.newListName);
+            if(this.newListName.trim() != ""){
                 this.data = [];
                 axios.post(this.$store.state.SRVROOT + "newList/", {
                     data: {listName: this.newListName, idUser: this.idUser},
                     config: {headers: {'Content-Type': 'multipart/form-data' }}
                 }).then(response => {
-                    console.log(response.data);
+                    //console.log(response.data);
                     if(response.data == 201){
                         alert("list successfully added");
                         this.updateLists();

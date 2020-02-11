@@ -46,23 +46,25 @@
 import axios from "axios";
 
 export default {
-    created(){
-        window.addEventListener('keypress', (e) => {
-            if (e.keyCode !== 13){
-                return
-            }
+    mounted(){
+        if(!localStorage.loggedIn){
+                document.addEventListener('keypress', (e) => {
+                    if (e.keyCode !== 13){
+                        return
+                }
 
-            e.preventDefault()
-            if(this.registering){
-                this.submitRegister();
-            } else{
-                this.submitLogin();
-            }
-        });
+                e.preventDefault()
+                if(this.registering){
+                    this.submitRegister();
+                } else{
+                    this.submitLogin();
+                }
+            });
+        }
     },
 
     beforeDestroy(){
-        window.removeEventListener('keypress', (e) => {
+        document.removeEventListener('keypress', (e) => {
             if (e.keyCode !== 13){
                 return
             }
@@ -105,19 +107,21 @@ export default {
         },
 
         submitRegister: function(){
-            this.data = [];
-            axios.post(this.$store.state.SRVROOT + "register/", {
-                data: {username: this.username, pwd: this.pwd},
-                config: {headers: {"Content-Type": "multipart/form-data"}}
-            })
-            .then(response => {
-                this.registered = response.data;
-                console.log(this.registered);
-                this.verifyRegisterResponse();
-            })
-            .catch(function(error) {
-                alert("login error" + error);
-            });
+            if(this.username.trim() != ""){
+                this.data = [];
+                axios.post(this.$store.state.SRVROOT + "register/", {
+                    data: {username: this.username, pwd: this.pwd},
+                    config: {headers: {"Content-Type": "multipart/form-data"}}
+                })
+                .then(response => {
+                    this.registered = response.data;
+                    //console.log(this.registered);
+                    this.verifyRegisterResponse();
+                })
+                .catch(function(error) {
+                    alert("login error" + error);
+                });
+            }
         },
 
         verifyLoginResponse: function(){

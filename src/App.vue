@@ -2,10 +2,10 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" class="mx-auto"/>
     <p class="text-white">Le Compte-Tout</p>
-    <div class="text-white flex justify-center self-start" v-if="this.$store.state.loggedIn">
+    <div class="text-white flex justify-center self-start" v-if="loggedIn">
       <p>Connected as: {{username}} <span class="underline text-green-500 cursor-pointer" v-on:click="logout">Logout</span></p>
     </div>
-      <Login v-if="!this.$store.state.loggedIn" @user="saveUserInfo"/>
+      <Login v-if="!loggedIn" @user="saveUserInfo"/>
     <!-- @selectedList listener to make variable available-->
     <Dashboard v-else-if="onDashboard" @selectedList="goToList" v-bind:idUser="this.idUser" v-bind:username="this.username"/>
     <Counter v-else v-bind:idList="this.chosenList" v-bind:idUser="this.idUser" v-bind:listName="this.chosenListName" @goBack="dashboardReturn"/>
@@ -33,6 +33,23 @@ export default {
       chosenListName: "",
       idUser: -1,
       username: "",
+      loggedIn: false,
+    }
+  },
+
+  mounted(){
+    this.updateCookies();
+  },
+  //watch to save current state to browser
+  watch: {
+    loggedIn: function(newLog){
+      localStorage.setItem('loggedIn', newLog);
+    },
+    idUser: function(newId){
+      localStorage.setItem('idUser', newId);
+    },
+    username: function(newUsername){
+      localStorage.setItem('username', newUsername);
     }
   },
 
@@ -49,19 +66,31 @@ export default {
       this.username = variable.username;
       this.idUser = parseInt(variable.idUser, 10);
       alert("Welcome " + this.username + " !");
-      this.$store.state.loggedIn = true;
+      this.loggedIn = true;
     },
 
     logout: function(){
-      this.$store.state.loggedIn = false;
-      this.onDashboard = true;
       this.chosenList = -1;
       this.idUser = -1;
       this.username = "";
+      this.loggedIn = false;
+      this.onDashboard = true;
     },
 
     dashboardReturn: function(){
       this.onDashboard = true;
+    },
+
+    updateCookies: function(){
+        if(localStorage.getItem('loggedIn') && localStorage.getItem('idUser') && localStorage.getItem('username')){
+        this.loggedIn = localStorage.loggedIn;
+        this.idUser = parseInt(localStorage.idUser, 10);
+        this.username = localStorage.username;
+      } else{
+        localStorage.setItem('loggedIn', this.loggedIn);
+        localStorage.setItem('idUser', this.idUser);
+        localStorage.setItem('username', this.username);
+      }
     }
   }
 };

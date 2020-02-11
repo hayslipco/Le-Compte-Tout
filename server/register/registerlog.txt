@@ -1,0 +1,7 @@
+
+ username: , password: 
+ user 'inserted', response: []
+ username: ok, password: ok
+ user 'inserted', response: []
+ username: corboi, password: corboi
+ user 'inserted', response: []

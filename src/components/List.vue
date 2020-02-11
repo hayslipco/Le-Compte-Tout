@@ -124,7 +124,7 @@ export default {
         })
         .catch(function(error) {
           //console.log(error);
-          alert(error);
+          alert("getCount: " + error);
         });
     },
 
@@ -134,11 +134,11 @@ export default {
           data: { name: name, quant: quant, mode: mode, idList: this.idList, idUser: this.idUser },
           config: { headers: { "Content-Type": "multipart/form-data" } }
         })
-        .then(function(response) {
-          console.log(response);
+        .then(function() {
+          //console.log(response);
         })
-        .catch(function(err) {
-          console.log("error: " + err);
+        .catch(function() {
+          //console.log("error: " + err);
         });
     },
 
