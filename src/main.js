@@ -11,7 +11,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state:{
     //SRVROOT: "http://127.0.0.1/server_ct/",
-	SRVROOT: "https://mighty-woodland-68724.herokuapp.com/",
+	SRVROOT: "https://mighty-woodland-68724.herokuapp.com/server/",
     loggedIn: false,
   }
 })
