@@ -30,7 +30,7 @@
              <p id="errorMsg" class="text-red-500"></p>
              <br>
              <br>
-             <p class="text-white" v-if="!registering">No account but want to count ? <span class="underline text-green-500 cursor-pointer" v-on:click="toggleSignup">Sing up</span></p>
+             <p class="text-white" v-if="!registering">No account but want to count ? <span class="underline text-green-500 cursor-pointer" v-on:click="toggleSignup">Sign up</span></p>
              <p class="text-white" v-else>Got an account to count ? <span class="underline text-green-500 cursor-pointer" v-on:click="toggleSignup">Login</span></p>
         </div>
     </div>
